@@ -1,0 +1,47 @@
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.HashSet;
+import java.util.Scanner;
+import java.util.Set;
+
+public class test {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        Deque<Integer> deque = new ArrayDeque<>();
+        Set<Integer> set = new HashSet<>();
+        
+        int n = in.nextInt();
+        int m = in.nextInt();
+        int maxUnique = 0;
+
+        for (int i = 0; i < n; i++) {
+            int num = in.nextInt();
+            
+            // Add the new element to both data structures
+            deque.add(num);
+            set.add(num);
+            
+            // Once the window reaches size M
+            if (deque.size() == m) {
+                // Update max unique elements
+                maxUnique = Math.max(maxUnique, set.size());
+                
+                // Optimization: If max possible unique elements reached, break early
+                if (maxUnique == m) {
+                    break;
+                }
+                
+                // Remove the oldest element from the front
+                int first = deque.removeFirst();
+                
+                // If the removed element is no longer in the current deque, remove it from the set
+                if (!deque.contains(first)) {
+                    set.remove(first);
+                }
+            }
+        }
+        
+        System.out.println(maxUnique);
+        in.close();
+    }
+}
