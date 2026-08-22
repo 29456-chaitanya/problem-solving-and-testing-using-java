@@ -1,0 +1,47 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        if (sc.hasNextInt()) {
+            int T = sc.nextInt();
+            while (T-- > 0) {
+                String s = sc.next();
+                if (isLapindrome(s)) {
+                    System.out.println("YES");
+                } else {
+                    System.out.println("NO");
+                }
+            }
+        }
+        sc.close();
+    }
+
+    private static boolean isLapindrome(String s) {
+        int len = s.length();
+        int mid = len / 2;
+        int[] freq = new int[26];
+
+        // Increment count for characters in the first half
+        for (int i = 0; i < mid; i++) {
+            freq[s.charAt(i) - 'a']++;
+        }
+
+        // Decrement count for characters in the second half
+        // (If length is odd, skip the middle character at index 'mid')
+        int rightStart = (len % 2 == 0) ? mid : mid + 1;
+        for (int i = rightStart; i < len; i++) {
+            freq[s.charAt(i) - 'a']--;
+        }
+
+        // Check if all character counts balance to zero
+        for (int count : freq) {
+            if (count != 0) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+}
